@@ -1,6 +1,9 @@
-const SocketService = require("./socket_service");
-const listenForClient = require("./socket_service")
+const InputEventService = require("./input_event_service");
+const SocketService = require("./input_event_service");
+const listenForClient = require("./input_event_service")
 
-require("./socket_service")
+require("./input_event_service")
 
-SocketService.listenForClient();
+InputEventService.init();
+
+setTimeout(InputEventService.sendWakeUp, 1500);
