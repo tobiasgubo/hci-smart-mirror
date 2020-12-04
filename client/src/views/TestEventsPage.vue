@@ -26,8 +26,8 @@ export default class TestEventsPage extends Vue {
   }
 
   onWakeUp() {
-    console.log("onWakeUp");
-    this.events.push("onWakeUp");
+    console.log("onWakeUp Console Item");
+    this.events.push("onWakeUp List Item");
   }
 
   onSwipeLeft() {

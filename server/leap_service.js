@@ -4,27 +4,48 @@ console.log("start");
 
 var controllerGestures = Leap.loop({enableGestures: true}, function(frame){
     //console.log(frame);
-    /*
-    if(frame.valid && frame.gestures.length > 0){
-      frame.gestures.forEach(function(gesture){
-          switch (gesture.type){
-            case "circle":
-                console.log("Circle Gesture");
-                break;
-            case "keyTap":
-                console.log("Key Tap Gesture");
-                break;
-            case "screenTap":
-                console.log("Screen Tap Gesture");
-                break;
-            case "swipe":
-                console.log("Swipe Gesture");
-                break;
-          }
-      });
+    if(frame.valid && frame.gestures.length > 0) {
+        frame.gestures.forEach(gesture => detect_direction(gesture));
     }
-    */
   });
+
+//calculates the angle of the direction vector
+function calculate_angle(gesture) {
+    let x = gesture.direction[0];
+    let y = gesture.direction[1];
+    let angle;
+    if(y >= 0){
+        angle = Math.acos(x);
+    }
+    else{
+        angle = -Math.acos(x);
+    }
+    return angle;
+}
+//computes small angle spacing of n degree
+function delta(n){
+    return del = (Math.PI*n)/180;
+}
+
+//returns the direction of the swipe
+function detect_direction(gesture) {
+    let phi = calculate_angle(gesture);
+    let delta = delta(5);
+    if(Math.PI/4 + delta <= phi && phi <= (3*Math.PI)/4 - delta){
+        console.log("Swipedirection is Up");
+    }
+    if(phi >= (3*Math.PI)/4 +delta || phi <= -((3*Math.PI)/4 + delta)){
+        console.log("Swipedirection is Left");
+    }
+    if(-(3*Math.PI)/4 +delta <= phi && phi <= -Math.PI/4 -delta){
+        console.log("Swipedirection is Down");
+    }
+    if(-Math.PI/4 +delta <= phi && phi <= Math.PI/4 -delta){
+        console.log("Swipedirection is Right");
+    }
+}
+
+
 
 var controller = new Leap.Controller()
 controller.on("frame", function(frame) {
