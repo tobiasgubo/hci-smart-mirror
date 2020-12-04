@@ -41,7 +41,7 @@ function init() {
     });
 }
 
-function on(onWakeUp: Function, onSwipeLeft: Function, onSwipeRight: Function, onSwipeUp: Function, onSwipeDown: Function, ) {
+function on(onWakeUp: Function, onSwipeLeft: Function, onSwipeRight: Function, onSwipeUp: Function, onSwipeDown: Function) {
     onWakeUpFunc = onWakeUp;
     onSwipeLeftFunc = onSwipeLeft;
     onSwipeRightFunc = onSwipeRight;
