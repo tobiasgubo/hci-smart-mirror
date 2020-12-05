@@ -2,12 +2,23 @@ require('../lib/node-entry');
 
 console.log("start");
 
+/*
 var controllerGestures = Leap.loop({enableGestures: true}, function(frame){
     //console.log(frame);
     if(frame.valid && frame.gestures.length > 0) {
         frame.gestures.forEach(gesture => detect_direction(gesture));
     }
   });
+*/
+
+var controller = new Leap.Controller({enableGestures: true});
+
+controller.on('gesture', function (gesture) {
+    console.log(gesture);
+    if(gesture.type === 'swipe'){
+        detect_direction(gesture);
+    }
+});
 
 //calculates the angle of the direction vector
 function calculate_angle(gesture) {
@@ -46,11 +57,12 @@ function detect_direction(gesture) {
 }
 
 
-
+/*
 var controller = new Leap.Controller()
 controller.on("frame", function(frame) {
   console.log("Frame: " + frame.id + " @ " + frame.timestamp);
 });
+ */
 
 var frameCount = 0;
 controller.on("frame", function(frame) {
@@ -59,7 +71,7 @@ controller.on("frame", function(frame) {
 
 setInterval(function() {
   var time = frameCount/2;
-  //console.log("received " + frameCount + " frames @ " + time + "fps");
+  console.log("received " + frameCount + " frames @ " + time + "fps");
   frameCount = 0;
 }, 2000);
 
