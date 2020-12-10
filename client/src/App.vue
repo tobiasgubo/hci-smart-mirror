@@ -24,7 +24,39 @@ import InputEventService from "./services/input_event_service";
   components: {},
 })
 export default class App extends Vue {
+  state = -10;
 
+  mounted() {
+    InputEventService.init();
+    this.state = 42
+    InputEventService.on(this.onWakeUp, this.onSwipeLeft, this.onSwipeRight, this.onSwipeUp, this.onSwipeDown);
+  }
+
+  onWakeUp() {
+    console.log("onWakeUp Console Item");
+    this.state = 0;
+    console.log(this.state);
+  }
+
+  onSwipeLeft() {
+    console.log("onSwipeLeft");
+    this.state = (this.state+1) % 4;
+    console.log(this.state);
+  }
+
+  onSwipeRight() {
+    console.log("onSwipeRight");
+    this.state = (this.state-1) % 4;
+    console.log(this.state);
+  }
+
+  onSwipeUp() {
+    console.log("onSwipeUp");
+  }
+
+  onSwipeDown() {
+    console.log("onSwipeDown");
+  }
 }
 </script>
 
