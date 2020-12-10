@@ -10,7 +10,7 @@
     -->
 
     <v-main class="full-screen">
-      <router-view class="full-screen"/>
+      <router-view class="full-screen" />
     </v-main>
   </v-app>
 </template>
@@ -28,34 +28,65 @@ export default class App extends Vue {
 
   mounted() {
     InputEventService.init();
-    this.state = 42
-    InputEventService.on(this.onWakeUp, this.onSwipeLeft, this.onSwipeRight, this.onSwipeUp, this.onSwipeDown);
+    this.state = 42;
+    InputEventService.on(
+      this.onWakeUp,
+      this.onSwipeLeft,
+      this.onSwipeRight,
+      this.onSwipeUp,
+      this.onSwipeDown
+    );
+  }
+
+  onChangePage() {
+    switch (this.state) {
+      case 42:
+        this.$router.push("/");
+        break;
+      case 0:
+        this.$router.push("/page_1");
+        break;
+      case 1:
+        this.$router.push("/page_2");
+        break;
+      case 2:
+        this.$router.push("/page_3");
+        break;
+      case 3:
+        this.$router.push("/page_4");
+        break;
+    }
   }
 
   onWakeUp() {
     console.log("onWakeUp Console Item");
     this.state = 0;
     console.log(this.state);
+    this.onChangePage();
   }
 
   onSwipeLeft() {
     console.log("onSwipeLeft");
-    this.state = (this.state+1) % 4;
+    this.state = (this.state + 1) % 4;
     console.log(this.state);
+    this.onChangePage();
   }
 
   onSwipeRight() {
     console.log("onSwipeRight");
-    this.state = (this.state-1) % 4;
+    this.state = (this.state - 1) % 4;
     console.log(this.state);
+    this.onChangePage();
   }
 
   onSwipeUp() {
     console.log("onSwipeUp");
+    this.onChangePage();
   }
 
   onSwipeDown() {
     console.log("onSwipeDown");
+    this.onChangePage();
   }
 }
 </script>
