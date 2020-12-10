@@ -7,7 +7,6 @@ var lastHand = null;
 
 var controllerGestures = Leap.loop({enableGestures: true}, function(frame){
     if(frame.valid && frame.hands.length > 0) {
-        console.log(frame.hands.length);
         currentHand = frame.hands[0];
     } else {
         currentHand = null;
@@ -21,7 +20,6 @@ var controllerGestures = Leap.loop({enableGestures: true}, function(frame){
   });
 
   setInterval(function() {
-      console.log(currentHand);
     detectGesture();
     lastHand = currentHand;
   }, 500);
@@ -30,9 +28,10 @@ var controllerGestures = Leap.loop({enableGestures: true}, function(frame){
       console.log("Entry");
       if (currentHand != null && lastHand != null) {
         console.log(currentHand.palmPosition);
+        console.log(lastHand.palmPosition);
         let direction=[0,0,0];
         for(let i = 0;i< currentHand.palmPosition.length; i++){
-            this.direction[i] = currentHand.palmPosition[i]-lastHand.palmPosition[i];
+            direction[i] = currentHand.palmPosition[i]-lastHand.palmPosition[i];
         }
         console.log(direction);
       }
