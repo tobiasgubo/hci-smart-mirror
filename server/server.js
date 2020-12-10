@@ -1,11 +1,13 @@
 const InputEventService = require("./input_event_service");
+const KeyInputService = require("./key_input_service");
 const SocketService = require("./input_event_service");
 const listenForClient = require("./input_event_service");
 const LeapService = require("./leap_service")
 
 require("./input_event_service")
 
-InputEventService.init();
+KeyInputService.init();
+//InputEventService.init();
 
 setInterval(InputEventService.sendWakeUp, 1500);
 

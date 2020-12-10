@@ -1,7 +1,5 @@
 <template>
-  <v-container>
-    <h1>Smart Mirror</h1>
-  </v-container>
+    <img class="img" src="../assets/HCI_Prototyp_SmartMirror-home.jpg">
 </template>
 
 <script>
@@ -10,3 +8,13 @@ export default {
   components: {}
 }
 </script>
+
+<style scoped>
+.img {
+  height: 100%;
+  height: 100%;
+
+  margin: auto;
+  object-fit: contain;
+}
+</style>
