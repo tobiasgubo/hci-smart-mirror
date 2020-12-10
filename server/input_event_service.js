@@ -1,14 +1,9 @@
-const express = require('express');
-
-const PORT = 3000;
-const app = express();
-const server = app.listen(PORT);
-var io = require('socket.io')(server, { cors: { origin: '*' } });
-
 const clients = [];
 
-function init() {
-    console.log("listening for raspy on port " + PORT)
+function init(server, port) {
+    var io = require('socket.io')(server, { cors: { origin: '*' } });
+
+    console.log("listening for raspy on port " + port)
         io.on('connection', client => { 
             console.log("new connection: " + client.id);
 

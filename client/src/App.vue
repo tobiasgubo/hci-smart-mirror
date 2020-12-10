@@ -16,17 +16,16 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { Component, Vue } from "vue-property-decorator";
+import InputEventService from "./services/input_event_service";
 
-export default Vue.extend({
+@Component({
   name: "App",
-
   components: {},
+})
+export default class App extends Vue {
 
-  data: () => ({
-    //
-  }),
-});
+}
 </script>
 
 <style scoped>

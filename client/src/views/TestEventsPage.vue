@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container style="background-color: white">
   <h1>Last received events</h1>
   <v-list>
     <v-list-item v-for="(event, i) in events" :key="i">

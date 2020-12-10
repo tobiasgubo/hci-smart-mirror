@@ -27,7 +27,7 @@ function parseEvent(event: string) {
 }
 
 function init() {
-    const socket = io('localhost:3000');
+    const socket = io();
 
     socket.on('connect', function () {
         console.log('connected to server');
