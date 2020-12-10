@@ -14,9 +14,16 @@ const server = app.listen(PORT);
 app.use(express.static(__dirname + '/public/'));
 app.get(/.*/, (req, res) => res.sendFile(__dirname + '/public/index.html'));
 
+InputEventService.init(server, PORT);
 
-//KeyInputService.init();
-//InputEventService.init(server, PORT);
+LeapService.on(
+    InputEventService.sendWakeUp,
+    InputEventService.sendLeftSwipe,
+    InputEventService.sendRightSwipe,
+    InputEventService.sendUpSwipe,
+    InputEventService.sendDownSwipe,
+)
+
 
 //setInterval(InputEventService.sendWakeUp, 1500);
 

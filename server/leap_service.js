@@ -2,6 +2,12 @@ require('../lib/node-entry');
 
 console.log("start");
 
+let onWakeUpFunc;
+let onSwipeLeftFunc;
+let onSwipeRightFunc;
+let onSwipeUpFunc;
+let onSwipeDownFunc;
+
 var currentHand = null;
 var lastHand = null;
 
@@ -117,3 +123,17 @@ controller.on('deviceDisconnected', function() {
 
 controller.connect();
 console.log("\nWaiting for device to connect...");
+
+function on(onWakeUp, onSwipeLeft, onSwipeRight, onSwipeUp, onSwipeDown) {
+    onWakeUpFunc = onWakeUp;
+    onSwipeLeftFunc = onSwipeLeft;
+    onSwipeRightFunc = onSwipeRight;
+    onSwipeUpFunc = onSwipeUp;
+    onSwipeDownFunc = onSwipeDown;
+}
+
+const LeapService = {
+    on,
+};
+
+module.exports = LeapService;
