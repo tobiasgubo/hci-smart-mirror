@@ -26,11 +26,11 @@ var controllerGestures = Leap.loop({enableGestures: true}, function(frame){
   });
 
   setInterval(function() {
-    detectGesture();
+    detectGestureDirection();
     lastHand = currentHand;
   }, 500);
 
-  function detectGesture() {
+  function detectGestureDirection() {
       console.log("Entry");
       if (currentHand != null && lastHand != null) {
         console.log(currentHand.palmPosition);
@@ -40,16 +40,27 @@ var controllerGestures = Leap.loop({enableGestures: true}, function(frame){
             direction[i] = currentHand.palmPosition[i]-lastHand.palmPosition[i];
         }
         console.log(direction);
-        normalizeVector(direction);
+        //normalizeVector(direction);
+        detectSwipeDirection(direction);
         console.log(direction);
       }
       console.log("exit");
   }
 
+  function detectSwipeDirection(vector){
+      if(vector[0]>0){
+          if(onSwipeRightFunc){onSwipeRightFunc(); console.log("right Swipe");}
+      }
+      else{
+          if(onSwipeLeftFunc){onSwipeLeftFunc(); console.log("left Swipe");}
+      }
+  }
+
+/*
 function calcVectorMagnitude(vector){
       let magnitude = 0 ;
       for(let i = 0 ; i < vector.length ; i++){
-          magnitude += vector[i]*vector[i];
+          magnitude += (vector[i]*vector[i]);
       }
       return Math.sqrt(magnitude);
 }
@@ -61,6 +72,7 @@ function normalizeVector(vector){
       }
       return vector;
 }
+*/
 
 var controller = new Leap.Controller({enableGestures: true});
 /*
@@ -73,7 +85,7 @@ controller.on('gesture', function (gesture) {
 */
 
 //calculates the angle of the direction vector
-function calculate_angle(gesture) {
+/*function calculate_angle(gesture) {
     let x = gesture.direction[0];
     let y = gesture.direction[1];
     let angle;
@@ -110,7 +122,7 @@ function detect_direction(gesture) {
         console.log("Swipedirection is Right");
         if(onSwipeRightFunc){onSwipeRightFunc();}
     }
-}
+}*/
 
 
 /*
