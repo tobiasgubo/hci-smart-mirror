@@ -1,17 +1,16 @@
-const InputEvent = require('input-event');
+const readline = require('readline');
 
-function init() {
-    const input = new InputEvent('/dev/input/event0');
+readline.emitKeypressEvents(process.stdin);
+process.stdin.setRawMode(true);
 
-    const keyboard = new InputEvent.Keyboard(input);
-
-    keyboard.on('keyup', console.log);
-    keyboard.on('keydown', console.log);
-    keyboard.on('keypress', console.log);
-}
+process.stdin.on('keypress', (str, key) => {
+  console.log(str)
+  console.log(key)
+  if (key && key.ctrl && key.name == 'c') process.exit();
+})
 
 const KeyInputService = {
-    init
+    
 };
 
 module.exports = KeyInputService;

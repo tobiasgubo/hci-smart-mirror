@@ -2,23 +2,75 @@ require('../lib/node-entry');
 
 console.log("start");
 
-/*
+let onWakeUpFunc;
+let onSwipeLeftFunc;
+let onSwipeRightFunc;
+let onSwipeUpFunc;
+let onSwipeDownFunc;
+
+var currentHand = null;
+var lastHand = null;
+
 var controllerGestures = Leap.loop({enableGestures: true}, function(frame){
-    //console.log(frame);
-    if(frame.valid && frame.gestures.length > 0) {
+    if(frame.valid && frame.hands.length > 0) {
+        currentHand = frame.hands[0];
+    } else {
+        currentHand = null;
+    }
+    /*
+    console.log(frame.gestures);
+    if(frame.valid && frame.gestures && frame.gestures.length > 0) {
         frame.gestures.forEach(gesture => detect_direction(gesture));
     }
+    */
   });
-*/
+
+  setInterval(function() {
+    detectGesture();
+    lastHand = currentHand;
+  }, 500);
+
+  function detectGesture() {
+      console.log("Entry");
+      if (currentHand != null && lastHand != null) {
+        console.log(currentHand.palmPosition);
+        console.log(lastHand.palmPosition);
+        let direction=[0,0,0];
+        for(let i = 0;i< currentHand.palmPosition.length; i++){
+            direction[i] = currentHand.palmPosition[i]-lastHand.palmPosition[i];
+        }
+        console.log(direction);
+        normalizeVector(direction);
+        console.log(direction);
+      }
+      console.log("exit");
+  }
+
+function calcVectorMagnitude(vector){
+      let magnitude = 0 ;
+      for(let i = 0 ; i < vector.length ; i++){
+          magnitude += vector[i]*vector[i];
+      }
+      return Math.sqrt(magnitude);
+}
+
+function normalizeVector(vector){
+      let magnitude = calcVectorMagnitude(vector);
+      for(let i = 0 ; i < vector.length; i++){
+          vector[i] /= magnitude;
+      }
+      return vector;
+}
 
 var controller = new Leap.Controller({enableGestures: true});
-
+/*
 controller.on('gesture', function (gesture) {
     console.log(gesture);
     if(gesture.type === 'swipe'){
         detect_direction(gesture);
     }
 });
+*/
 
 //calculates the angle of the direction vector
 function calculate_angle(gesture) {
@@ -44,15 +96,19 @@ function detect_direction(gesture) {
     let delta = delta(5);
     if(Math.PI/4 + delta <= phi && phi <= (3*Math.PI)/4 - delta){
         console.log("Swipedirection is Up");
+        if(onSwipeUpFunc){onSwipeUpFunc();}
     }
     if(phi >= (3*Math.PI)/4 +delta || phi <= -((3*Math.PI)/4 + delta)){
         console.log("Swipedirection is Left");
+        if(onSwipeLeftFunc){onSwipeLeftFunc();}
     }
     if(-(3*Math.PI)/4 +delta <= phi && phi <= -Math.PI/4 -delta){
         console.log("Swipedirection is Down");
+        if(onSwipeDownFunc){onSwipeDownFunc();}
     }
     if(-Math.PI/4 +delta <= phi && phi <= Math.PI/4 -delta){
         console.log("Swipedirection is Right");
+        if(onSwipeRightFunc){onSwipeRightFunc();}
     }
 }
 
@@ -63,17 +119,6 @@ controller.on("frame", function(frame) {
   console.log("Frame: " + frame.id + " @ " + frame.timestamp);
 });
  */
-
-var frameCount = 0;
-controller.on("frame", function(frame) {
-  frameCount++;
-});
-
-setInterval(function() {
-  var time = frameCount/2;
-  console.log("received " + frameCount + " frames @ " + time + "fps");
-  frameCount = 0;
-}, 2000);
 
 controller.on('ready', function() {
     console.log("ready");
@@ -99,3 +144,17 @@ controller.on('deviceDisconnected', function() {
 
 controller.connect();
 console.log("\nWaiting for device to connect...");
+
+function on(onWakeUp, onSwipeLeft, onSwipeRight, onSwipeUp, onSwipeDown) {
+    onWakeUpFunc = onWakeUp;
+    onSwipeLeftFunc = onSwipeLeft;
+    onSwipeRightFunc = onSwipeRight;
+    onSwipeUpFunc = onSwipeUp;
+    onSwipeDownFunc = onSwipeDown;
+}
+
+const LeapService = {
+    on,
+};
+
+module.exports = LeapService;

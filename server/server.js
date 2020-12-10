@@ -1,9 +1,7 @@
 const InputEventService = require("./input_event_service");
-//const KeyInputService = require("./key_input_service");
-const SocketService = require("./input_event_service");
-const listenForClient = require("./input_event_service");
+const KeyInputService = require("./key_input_service");
 const express = require('express');
-//const LeapService = require("./leap_service")
+const LeapService = require("./leap_service")
 
 require("./input_event_service")
 
@@ -14,11 +12,18 @@ const server = app.listen(PORT);
 app.use(express.static(__dirname + '/public/'));
 app.get(/.*/, (req, res) => res.sendFile(__dirname + '/public/index.html'));
 
-
-//KeyInputService.init();
 InputEventService.init(server, PORT);
 
-setInterval(InputEventService.sendWakeUp, 1500);
+LeapService.on(
+    InputEventService.sendWakeUp,
+    InputEventService.sendLeftSwipe,
+    InputEventService.sendRightSwipe,
+    InputEventService.sendUpSwipe,
+    InputEventService.sendDownSwipe,
+)
+
+
+//setInterval(InputEventService.sendWakeUp, 1500);
 
 /*setInterval(InputEventService.sendLeftSwipe, 1500);
 setInterval(InputEventService.sendRightSwipe, 1500);
