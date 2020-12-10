@@ -1,7 +1,7 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "a3a2e6c9a357ab814092",
-    "url": "/css/app.57a7f10b.css"
+    "revision": "c88e57541c708d525a08",
+    "url": "/css/app.0372c0d9.css"
   },
   {
     "revision": "ab65e5cebc557af37b99",
@@ -44,12 +44,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/img/HCI_Prototyp_SmartMirror-termine_todos.da7c6dbd.jpg"
   },
   {
-    "revision": "9a0c1eb144056ee4bbed16e0af609a8b",
+    "revision": "3c3c3351c21db0db0fa1a14aec52d1e2",
     "url": "/index.html"
   },
   {
-    "revision": "a3a2e6c9a357ab814092",
-    "url": "/js/app.f87c7b72.js"
+    "revision": "c88e57541c708d525a08",
+    "url": "/js/app.bcbe73ab.js"
   },
   {
     "revision": "ab65e5cebc557af37b99",

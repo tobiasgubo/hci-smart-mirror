@@ -25,6 +25,7 @@ import InputEventService from "./services/input_event_service";
 })
 export default class App extends Vue {
   state = -10;
+  lastEvent = Date.now()
 
   mounted() {
     InputEventService.init();
@@ -38,7 +39,18 @@ export default class App extends Vue {
     );
   }
 
+  setSleepTimout() {
+    this.lastEvent = Date.now()
+    setTimeout(() => {
+      if(this.lastEvent - Date.now() > 5000) {
+          this.state = 42;
+          this.onChangePage();
+      }
+    }, 5000);
+  }
+
   onChangePage() {
+    this.setSleepTimout();
     switch (this.state) {
       case 42:
         this.$router.push("/");
@@ -74,7 +86,11 @@ export default class App extends Vue {
 
   onSwipeRight() {
     console.log("onSwipeRight");
-    this.state = (this.state - 1) % 4;
+    if (this.state === 0) {
+      this.state = 3;
+    } else {
+      this.state = (this.state - 1) % 4;
+    }
     console.log(this.state);
     this.onChangePage();
   }

@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.4a216452fc0087e0d00a3d5be284c4fd.js"
+  "/precache-manifest.8c192b482b2a8d5b961a483f68f2a4b7.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "hci_smart_mirror"});
