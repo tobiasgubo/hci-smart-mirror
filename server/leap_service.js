@@ -39,6 +39,7 @@ var controllerGestures = Leap.loop({enableGestures: true}, function(frame){
         for(let i = 0;i< currentHand.palmPosition.length; i++){
             direction[i] = currentHand.palmPosition[i]-lastHand.palmPosition[i];
         }
+        console.log(direction);
         normalizeVector(direction);
         console.log(direction);
       }
@@ -107,7 +108,7 @@ function detect_direction(gesture) {
     }
     if(-Math.PI/4 +delta <= phi && phi <= Math.PI/4 -delta){
         console.log("Swipedirection is Right");
-        if(onSwipeRightFunc){onSwipeRightFunc{};}
+        if(onSwipeRightFunc){onSwipeRightFunc();}
     }
 }
 
