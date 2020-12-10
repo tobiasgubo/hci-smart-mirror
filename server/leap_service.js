@@ -39,6 +39,21 @@ var controllerGestures = Leap.loop({enableGestures: true}, function(frame){
       console.log("exit");
   }
 
+function calcVectorMagnitude(vector){
+      let magnitude = 0 ;
+      for(let i = 0 ; i < vector.length ; i++){
+          magnitude += vector[i]*vector[i];
+      }
+      return Math.sqrt(magnitude);
+}
+
+function normalizeVector(vector){
+      let magnitude = calcVectorMagnitude(vector);
+      for(let i = 0 ; i < vector.length; i++){
+          vector[i] /= magnitude;
+      }
+      return vector;
+}
 
 var controller = new Leap.Controller({enableGestures: true});
 /*
