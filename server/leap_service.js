@@ -170,3 +170,17 @@ const LeapService = {
 };
 
 module.exports = LeapService;
+
+
+if(process.env.HTTP_EVENT_TRIGGERS=1){
+	const DEBUG_EVENT_TRIGGER_PORT=3100;
+	console.log('http event triggers enabled, port:'+DEBUG_EVENT_TRIGGER_PORT);
+	const express = require('express')
+	const app= express();
+	app.listen(DEBUG_EVENT_TRIGGER_PORT);
+	app.get('/w',(_,res)=>{onWakeUpFunc(); return res.send('ok')})
+	app.get('/l',(_,res)=>{onSwipeLeftFunc(); return res.send('ok')})
+	app.get('/r',(_,res)=>{onSwipeRightFunc(); return res.send('ok')})
+	app.get('/u',(_,res)=>{onSwipeUpFunc(); return res.send('ok')})
+	app.get('/d',(_,res)=>{onSwipeDownFunc(); return res.send('ok')})
+}
