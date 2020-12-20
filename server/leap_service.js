@@ -1,4 +1,5 @@
 require('../lib/node-entry');
+require('../server/swipe_Object');
 
 console.log("start");
 
@@ -59,68 +60,6 @@ setInterval(function() {
       }
   }
 
-  class SwipeObject{
-      constructor(position1, position2) {
-          this.detectionTime = Date.now();
-          this.handPosition1 = position1;
-          this.handPosition2 = position2;
-          this.calculateDirection(this.handPosition1, this.handPosition2);
-          //this.Dir = 0 for right and this.Dir = 1 for left 
-          if (this.direction[0] > 0){
-              this.Dir = 0;
-          }
-          else{
-              this.Dir = 1;
-          }
-      }
-
-      get velocity(){
-          return this.calculateVelocity();
-      }
-      get direction(){
-          return this.Dir;
-      }
-      get time(){
-          return this.detectionTime;
-      }
-      get directionVector(){
-          return this.direction;
-      }
-
-      calculateDirection(pos1,pos2){
-          for (let i = 0 ; i < pos1.length; i++){
-              this.direction.push(pos2[i]-pos1[i]);
-          }
-      }
-
-      calculateVelocity(direction){
-          let temp = 0;
-          for(let i = 0 ; i <direction.length; i++){
-              temp += direction[i]*direction[i];
-          }
-          return Math.sqrt(temp);
-
-      }
-  }
-
-/*
-function calcVectorMagnitude(vector){
-      let magnitude = 0 ;
-      for(let i = 0 ; i < vector.length ; i++){
-          magnitude += (vector[i]*vector[i]);
-      }
-      return Math.sqrt(magnitude);
-}
-
-function normalizeVector(vector){
-      let magnitude = calcVectorMagnitude(vector);
-      for(let i = 0 ; i < vector.length; i++){
-          vector[i] /= magnitude;
-      }
-      return vector;
-}
-*/
-
 let controller = new Leap.Controller({enableGestures: true});
 /*
 controller.on('gesture', function (gesture) {
@@ -131,45 +70,7 @@ controller.on('gesture', function (gesture) {
 });
 */
 
-//calculates the angle of the direction vector
-/*function calculate_angle(gesture) {
-    let x = gesture.direction[0];
-    let y = gesture.direction[1];
-    let angle;
-    if(y >= 0){
-        angle = Math.acos(x);
-    }
-    else{
-        angle = -Math.acos(x);
-    }
-    return angle;
-}
-//computes small angle spacing of n degree
-function delta(n){
-    return del = (Math.PI*n)/180;
-}
 
-//returns the direction of the swipe
-function detect_direction(gesture) {
-    let phi = calculate_angle(gesture);
-    let delta = delta(5);
-    if(Math.PI/4 + delta <= phi && phi <= (3*Math.PI)/4 - delta){
-        console.log("Swipedirection is Up");
-        if(onSwipeUpFunc){onSwipeUpFunc();}
-    }
-    if(phi >= (3*Math.PI)/4 +delta || phi <= -((3*Math.PI)/4 + delta)){
-        console.log("Swipedirection is Left");
-        if(onSwipeLeftFunc){onSwipeLeftFunc();}
-    }
-    if(-(3*Math.PI)/4 +delta <= phi && phi <= -Math.PI/4 -delta){
-        console.log("Swipedirection is Down");
-        if(onSwipeDownFunc){onSwipeDownFunc();}
-    }
-    if(-Math.PI/4 +delta <= phi && phi <= Math.PI/4 -delta){
-        console.log("Swipedirection is Right");
-        if(onSwipeRightFunc){onSwipeRightFunc();}
-    }
-}*/
 
 
 /*
