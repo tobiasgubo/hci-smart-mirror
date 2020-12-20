@@ -225,9 +225,10 @@ if(process.env.HTTP_EVENT_TRIGGERS=1){
 	const express = require('express')
 	const app= express();
 	app.listen(DEBUG_EVENT_TRIGGER_PORT);
-	app.get('/w',(_,res)=>{onWakeUpFunc(); return res.send('ok')})
-	app.get('/l',(_,res)=>{onSwipeLeftFunc(); return res.send('ok')})
-	app.get('/r',(_,res)=>{onSwipeRightFunc(); return res.send('ok')})
-	app.get('/u',(_,res)=>{onSwipeUpFunc(); return res.send('ok')})
-	app.get('/d',(_,res)=>{onSwipeDownFunc(); return res.send('ok')})
+	app.get('/',(_,res)=>res.sendFile(__dirname + '/public/debug_http_trigger_form.html'))
+	app.get('/w',(_,res)=>{onWakeUpFunc(); return res.sendFile(__dirname + '/public/debug_http_trigger_form.html')})
+	app.get('/l',(_,res)=>{onSwipeLeftFunc(); return res.sendFile(__dirname + '/public/debug_http_trigger_form.html')})
+	app.get('/r',(_,res)=>{onSwipeRightFunc(); return res.sendFile(__dirname + '/public/debug_http_trigger_form.html')})
+	app.get('/u',(_,res)=>{onSwipeUpFunc(); return res.sendFile(__dirname + '/public/debug_http_trigger_form.html')})
+	app.get('/d',(_,res)=>{onSwipeDownFunc(); return res.sendFile(__dirname + '/public/debug_http_trigger_form.html')})
 }
