@@ -8,11 +8,15 @@ let onSwipeRightFunc;
 let onSwipeUpFunc;
 let onSwipeDownFunc;
 
-var currentHand = null;
-var lastHand = null;
+let currentHand = null;
+let lastHand = null;
 
-var controllerGestures = Leap.loop({enableGestures: true}, function(frame){
-    if(frame.valid && frame.hands.length > 0) {
+let DETECTION_THRESHOLD = 500;
+let REFRESHRATE = 500;
+let gestureArray;
+
+const controllerGestures = Leap.loop({enableGestures: true}, function (frame) {
+    if (frame.valid && frame.hands.length > 0) {
         currentHand = frame.hands[0];
     } else {
         currentHand = null;
@@ -23,15 +27,18 @@ var controllerGestures = Leap.loop({enableGestures: true}, function(frame){
         frame.gestures.forEach(gesture => detect_direction(gesture));
     }
     */
-  });
+});
 
-  setInterval(function() {
+setInterval(function() {
     detectGestureDirection();
     lastHand = currentHand;
-  }, 500);
+    let detectedGesture = new SwipeObject(lastHand,currentHand);
+    if (detectedGesture.velocity > DETECTION_THRESHOLD){
+        gestureArray.push(detectedGesture);
+    }
+  }, REFRESHRATE);
 
   function detectGestureDirection() {
-      console.log("Entry");
       if (currentHand != null && lastHand != null) {
         console.log(currentHand.palmPosition);
         console.log(lastHand.palmPosition);
@@ -39,12 +46,8 @@ var controllerGestures = Leap.loop({enableGestures: true}, function(frame){
         for(let i = 0;i< currentHand.palmPosition.length; i++){
             direction[i] = currentHand.palmPosition[i]-lastHand.palmPosition[i];
         }
-        console.log(direction);
-        //normalizeVector(direction);
         detectSwipeDirection(direction);
-        console.log(direction);
       }
-      console.log("exit");
   }
 
   function detectSwipeDirection(vector){
@@ -53,6 +56,50 @@ var controllerGestures = Leap.loop({enableGestures: true}, function(frame){
       }
       else{
           if(onSwipeLeftFunc){onSwipeLeftFunc(); console.log("left Swipe");}
+      }
+  }
+
+  class SwipeObject{
+      constructor(position1, position2) {
+          this.detectionTime = Date.now();
+          this.handPosition1 = position1;
+          this.handPosition2 = position2;
+          this.calculateDirection(this.handPosition1, this.handPosition2);
+          //this.Dir = 0 for right and this.Dir = 1 for left 
+          if (this.direction[0] > 0){
+              this.Dir = 0;
+          }
+          else{
+              this.Dir = 1;
+          }
+      }
+
+      get velocity(){
+          return this.calculateVelocity();
+      }
+      get direction(){
+          return this.Dir;
+      }
+      get time(){
+          return this.detectionTime;
+      }
+      get directionVector(){
+          return this.direction;
+      }
+
+      calculateDirection(pos1,pos2){
+          for (let i = 0 ; i < pos1.length; i++){
+              this.direction.push(pos2[i]-pos1[i]);
+          }
+      }
+
+      calculateVelocity(direction){
+          let temp = 0;
+          for(let i = 0 ; i <direction.length; i++){
+              temp += direction[i]*direction[i];
+          }
+          return Math.sqrt(temp);
+
       }
   }
 
@@ -74,7 +121,7 @@ function normalizeVector(vector){
 }
 */
 
-var controller = new Leap.Controller({enableGestures: true});
+let controller = new Leap.Controller({enableGestures: true});
 /*
 controller.on('gesture', function (gesture) {
     console.log(gesture);
