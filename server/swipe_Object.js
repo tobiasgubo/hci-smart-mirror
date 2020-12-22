@@ -1,4 +1,4 @@
-module.exports = class SwipeObject {
+class SwipeObject {
     _detectionTime;
     _handPos1;
     _handPos2;
@@ -96,7 +96,7 @@ module.exports = class SwipeObject {
     calcDirComplex(gesture) {
         let phi = this._dirAngle;
         let delta = (Math.PI * this.SPACINNG) / 180;
-        ;
+
         if (-Math.PI / 4 + delta <= phi && phi <= Math.PI / 4 - delta) {
             console.log("Swipedirection is Right");
             this._dir = 0;
@@ -115,3 +115,5 @@ module.exports = class SwipeObject {
         }
     }
 }
+
+module.exports = SwipeObject;
