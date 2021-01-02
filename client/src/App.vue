@@ -8,7 +8,6 @@
       </div>
     </v-app-bar>
     -->
-
     <v-main class="full-screen">
       <router-view class="full-screen" />
     </v-main>
