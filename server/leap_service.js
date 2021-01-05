@@ -14,7 +14,10 @@ let lastHand = null;
 
 let DETECTION_THRESHOLD = 500;
 let REFRESHRATE = 500;
+let TIME_THRESHOLD = 2000;
+
 let gestureArray = [];
+let seperatedGestures = [];
 
 const controllerGestures = Leap.loop({enableGestures: true}, function (frame) {
     if (frame.valid && frame.hands.length > 0) {
@@ -22,17 +25,10 @@ const controllerGestures = Leap.loop({enableGestures: true}, function (frame) {
     } else {
         currentHand = null;
     }
-    /*
-    console.log(frame.gestures);
-    if(frame.valid && frame.gestures && frame.gestures.length > 0) {
-        frame.gestures.forEach(gesture => detect_direction(gesture));
-    }
-    */
 });
 
 setInterval(function () {
     if (currentHand != null && lastHand != null) {
-        detectGestureDirection();
         addGesture();
     }
     lastHand = currentHand;
@@ -45,47 +41,29 @@ function addGesture() {
     }
 }
 
-function detectGestureDirection() {
-    console.log(currentHand.palmPosition);
-    console.log(lastHand.palmPosition);
-    let direction = [0, 0, 0];
-    for (let i = 0; i < currentHand.palmPosition.length; i++) {
-        direction[i] = currentHand.palmPosition[i] - lastHand.palmPosition[i];
+function differenciateGestures(gestureArray) {
+    if (gestureArray.length > 0){
+        let currentSwipe = gestureArray[0];
+        seperatedGestures.push(currentSwipe);
+        gestureArray.splice(0,1);
+        for (let i = 0 ; i < gestureArray.length; i++){
+            let deltaTime = gestureArray[i].time - currentSwipe.time;
+            if (gestureArray[i].dir == currentSwipe.dir){
+                if (deltaTime > TIME_THRESHOLD){
+                    currentSwipe = gestureArray[i];
+                    seperatedGestures.push(currentSwipe);
+                }
+            }else {
+                currentSwipe = gestureArray[i];
+                seperatedGestures.push(currentSwipe);
+            }
+            gestureArray.splice(i,1);
+        }
     }
-    detectSwipeDirection(direction);
 }
 
-function detectSwipeDirection(vector) {
-    if (vector[0] > 0) {
-        if (onSwipeRightFunc) {
-            onSwipeRightFunc();
-            console.log("right Swipe");
-        }
-    } else {
-        if (onSwipeLeftFunc) {
-            onSwipeLeftFunc();
-            console.log("left Swipe");
-        }
-    }
-}
 
 let controller = new Leap.Controller({enableGestures: true});
-/*
-controller.on('gesture', function (gesture) {
-    console.log(gesture);
-    if(gesture.type === 'swipe'){
-        detect_direction(gesture);
-    }
-});
-*/
-
-
-/*
-var controller = new Leap.Controller()
-controller.on("frame", function(frame) {
-  console.log("Frame: " + frame.id + " @ " + frame.timestamp);
-});
- */
 
 controller.on('ready', function () {
     console.log("ready");

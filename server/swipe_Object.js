@@ -17,6 +17,7 @@ class SwipeObject {
         this._dirVectorNormalized = this.normalizeDirectionVector();
         this._velocity = this.calcVelocity(this._dirVector);
         this._dirAngle = this.calcAngle();
+        this.calcDirSimple();
     }
 
     get time() {
@@ -95,7 +96,7 @@ class SwipeObject {
 
     calcDirComplex(gesture) {
         let phi = this._dirAngle;
-        let delta = (Math.PI * this.SPACINNG) / 180;
+        let delta = (Math.PI * this.SPACING) / 180;
 
         if (-Math.PI / 4 + delta <= phi && phi <= Math.PI / 4 - delta) {
             console.log("Swipedirection is Right");
