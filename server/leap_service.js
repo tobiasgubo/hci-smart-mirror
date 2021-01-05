@@ -75,7 +75,9 @@ function detectGestureWithFixedDistance(gestureArray) {
                 } else {
                     onSwipeRightFunc();
                 }
-                gestureArray.splice(0,i-1);
+                if (i >= 1) {
+                    gestureArray.splice(0, i - 1);
+                }
             }
         }
     }
