@@ -15,6 +15,7 @@ let lastHand = null;
 let DETECTION_THRESHOLD = 500;
 let REFRESHRATE = 500;
 let TIME_THRESHOLD = 2000;
+let GESTURE_DISTANCE = 20;
 
 let gestureArray = [];
 let seperatedGestures = [];
@@ -42,7 +43,7 @@ function addGesture() {
 }
 
 function differenciateGestures(gestureArray) {
-    if (gestureArray.length > 0){
+    if (gestureArray.length > 0) {
         let currentSwipe = gestureArray[0];
         seperatedGestures.push(currentSwipe);
         gestureArray.splice(0,1);
@@ -58,6 +59,24 @@ function differenciateGestures(gestureArray) {
                 seperatedGestures.push(currentSwipe);
             }
             gestureArray.splice(i,1);
+        }
+    }
+}
+
+const DIRECTION = 1;
+function detectGestureWithFixedDistance(gestureArray) {
+    if (gestureArray.length > 0) {
+        let totalDistance = 0;
+        for (let i = 0; i < gestureArray.length; i++) {
+            let totalDistance = totalDistance + gestureArray[i].directionVector[DIRECTION];
+            if (totalDistance > GESTURE_DISTANCE) {
+                if (totalDistance > 0) {
+                    onSwipeLeftFunc();
+                } else {
+                    onSwipeRightFunc();
+                }
+                gestureArray.splice(0,i-1);
+            }
         }
     }
 }
