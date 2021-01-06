@@ -10,6 +10,9 @@
     "start-server": "node server/server.js"
   },
   "dependencies": {
+    "axios": "^0.21.1",
+    "cheerio": "^1.0.0-rc.5",
+    "cheerio-select": "^1.0.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "gl-matrix": "^3.3.0",
