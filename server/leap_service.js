@@ -22,6 +22,8 @@ let seperatedGestures = [];
 
 let controller = new Leap.Controller({enableGestures: true});
 
+controller.use('screenPosition');
+
 controller.on('frame', function(frame){
     if (frame.valid && frame.hands.length > 0) {
         console.log(frame.hands.length);
