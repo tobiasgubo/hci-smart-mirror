@@ -63,7 +63,7 @@ function differenciateGestures(gestureArray) {
     }
 }
 
-const DIRECTION = 1;
+const DIRECTION = 0;
 function detectGestureWithFixedDistance(gestureArray) {
     if (gestureArray.length > 0) {
         let totalDistance = 0;
