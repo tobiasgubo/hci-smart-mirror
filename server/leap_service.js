@@ -22,6 +22,7 @@ let seperatedGestures = [];
 
 const controllerGestures = Leap.loop({enableGestures: true}, function (frame) {
     if (frame.valid && frame.hands.length > 0) {
+        console.log(frame.hands.length);
         currentHand = frame.hands[0];
     } else {
         currentHand = null;
