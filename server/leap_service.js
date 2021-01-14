@@ -25,6 +25,7 @@ let controller = new Leap.Controller({enableGestures: true});
 controller.use('screenPosition');
 
 controller.on('frame', function(frame){
+    console.log(frame.id);
     if (frame.valid && frame.hands.length > 0) {
         console.log(frame.hands.length);
         currentHand = frame.hands[0];
