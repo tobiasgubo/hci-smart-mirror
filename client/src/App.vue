@@ -41,7 +41,7 @@ export default class App extends Vue {
   setSleepTimout() {
     this.lastEvent = Date.now()
     setTimeout(() => {
-      if(this.lastEvent - Date.now() > 5000) {
+      if(Date.now() - this.lastEvent > 5000) {
           this.state = 42;
           this.onChangePage();
       }

@@ -25,10 +25,10 @@ class SwipeObject {
     }
 
     get velocity() {
-        return this._velocity();
+        return this._velocity;
     }
 
-    get direction() {
+    get _dirVector() {
         return this._dir;
     }
 
@@ -69,15 +69,15 @@ class SwipeObject {
 
     normalizeDirectionVector() {
         let temp;
-        for (let i = 0; i < this.direction.length; i++) {
-            temp.push(this.direction[i] / this.velocity);
+        for (let i = 0; i < this._dirVector.length; i++) {
+            temp.push(this._dirVector[i] / this.velocity);
         }
         return temp;
     }
 
     calcDirSimple() {
         //this._dir = 0 for right and this._dir = 1 for left
-        if (this.direction[0] > 0) {
+        if (this._dirVector[0] > 0) {
             this._dir = 0;
         } else {
             this._dir = 1;
