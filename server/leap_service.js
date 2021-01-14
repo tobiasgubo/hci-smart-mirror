@@ -20,7 +20,9 @@ let GESTURE_DISTANCE = 20;
 let gestureArray = [];
 let seperatedGestures = [];
 
-const controllerGestures = Leap.loop({enableGestures: true}, function (frame) {
+let controller = new Leap.Controller({enableGestures: true});
+
+controller.on('frame', function(frame){
     if (frame.valid && frame.hands.length > 0) {
         console.log(frame.hands.length);
         currentHand = frame.hands[0];
@@ -83,9 +85,6 @@ function detectGestureWithFixedDistance(gestureArray) {
         }
     }
 }
-
-
-let controller = new Leap.Controller({enableGestures: true});
 
 controller.on('ready', function () {
     console.log("ready");
