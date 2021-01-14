@@ -1,4 +1,5 @@
-require('../lib/node-entry');
+//require('../lib/node-entry');
+const Leap = require("leapjs");
 const SwipeObject = require('./swipe_Object');
 
 console.log("start");
@@ -22,7 +23,7 @@ let seperatedGestures = [];
 
 let controller = new Leap.Controller({enableGestures: true});
 
-controller.use('screenPosition');
+//controller.use('screenPosition');
 
 controller.on('frame', function(frame){
     console.log(frame.id);
