@@ -13,10 +13,11 @@ let onSwipeDownFunc;
 let currentHand = null;
 let lastHand = null;
 
-let DETECTION_THRESHOLD = 500;
-let REFRESHRATE = 500;
+let DETECTION_MIN_THRESHOLD = 20;
+let DETECTION_MAX_THRESHOLD = 100;
+let REFRESHRATE = 250;
 let TIME_THRESHOLD = 2000;
-let GESTURE_DISTANCE = 20;
+let GESTURE_DISTANCE = 130;
 
 let gestureArray = [];
 let seperatedGestures = [];
@@ -26,26 +27,25 @@ let controller = new Leap.Controller({enableGestures: true});
 //controller.use('screenPosition');
 
 controller.on('frame', function(frame){
-    console.log(frame.id);
     if (frame.valid && frame.hands.length > 0) {
-        console.log(frame.hands.length);
         currentHand = frame.hands[0];
-    } else {
-        currentHand = null;
     }
 });
 
 setInterval(function () {
     if (currentHand != null && lastHand != null) {
         addGesture();
+        detectGestureWithFixedDistance();
     }
     lastHand = currentHand;
 }, REFRESHRATE);
 
 function addGesture() {
-    let detectedGesture = new SwipeObject(lastHand, currentHand);
-    if (detectedGesture.velocity > DETECTION_THRESHOLD) {
+    let detectedGesture = new SwipeObject(lastHand.palmPosition, currentHand.palmPosition);
+    if (detectedGesture.velocity > DETECTION_MIN_THRESHOLD && detectedGesture.velocity < DETECTION_MAX_THRESHOLD) {
         gestureArray.push(detectedGesture);
+    } else {
+        console.log("swipe not in threshold")
     }
 }
 
@@ -70,20 +70,25 @@ function differenciateGestures(gestureArray) {
     }
 }
 
-const DIRECTION = 1;
-function detectGestureWithFixedDistance(gestureArray) {
+const DIRECTION = 0;
+function detectGestureWithFixedDistance() {
+    console.log("gestures: " + gestureArray.length);
     if (gestureArray.length > 0) {
         let totalDistance = 0;
         for (let i = 0; i < gestureArray.length; i++) {
-            let totalDistance = totalDistance + gestureArray[i].directionVector[DIRECTION];
-            if (totalDistance > GESTURE_DISTANCE) {
+            totalDistance = totalDistance + gestureArray[i].directionVector[DIRECTION];
+            console.log("total distance: " + totalDistance);
+            if (Math.abs(totalDistance) > GESTURE_DISTANCE) {
                 if (totalDistance > 0) {
+                    console.log("left swipe");
                     onSwipeLeftFunc();
                 } else {
+                    console.log("right swipe");
                     onSwipeRightFunc();
                 }
-                if (i >= 1) {
-                    gestureArray.splice(0, i - 1);
+                if (i >= 0) {
+                    gestureArray.splice(0, i);
+                    console.log(gestureArray.length)
                 }
             }
         }

@@ -51,7 +51,7 @@ class SwipeObject {
     }
 
     calcDirVector(pos1, pos2) {
-        let temp;
+        let temp = [];
         for (let i = 0; i < pos1.length; i++) {
             temp.push(pos2[i] - pos1[i]);
         }
@@ -68,7 +68,7 @@ class SwipeObject {
     }
 
     normalizeDirectionVector() {
-        let temp;
+        let temp = [];
         for (let i = 0; i < this._dirVector.length; i++) {
             temp.push(this._dirVector[i] / this.velocity);
         }
