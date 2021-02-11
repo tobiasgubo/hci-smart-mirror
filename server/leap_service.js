@@ -24,8 +24,6 @@ let seperatedGestures = [];
 
 let controller = new Leap.Controller({enableGestures: true});
 
-//controller.use('screenPosition');
-
 controller.on('frame', function(frame){
     if (frame.valid && frame.hands.length > 0) {
         currentHand = frame.hands[0];
@@ -110,15 +108,12 @@ controller.on('focus', function () {
 controller.on('blur', function () {
     console.log("blur");
 });
-controller.on('deviceConnected', function () {
-    console.log("deviceConnected");
-});
-controller.on('deviceDisconnected', function () {
-    console.log("deviceDisconnected");
-});
-
-controller.connect();
-console.log("\nWaiting for device to connect...");
+controller.on('streamingStarted', function () {
+    console.log("streamingStarted");
+})
+controller.on('deviceStreaming', function (){
+    consol.log('deviceStreaming');
+})
 
 function on(onWakeUp, onSwipeLeft, onSwipeRight, onSwipeUp, onSwipeDown) {
     onWakeUpFunc = onWakeUp;
